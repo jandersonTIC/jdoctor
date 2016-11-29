@@ -1,0 +1,107 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration is used for unit/integration tests.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+eureka:
+    client:
+        enabled: false
+    instance:
+        appname: jDoctor
+        instanceId: jDoctor:${spring.application.instance_id:${random.value}}
+
+spring:
+    application:
+        name: jDoctor
+    jackson:
+        serialization.write_dates_as_timestamps: false
+    cloud:
+        stream:
+            kafka:
+                binder:
+                    brokers: localhost
+                    zk-nodes: localhost
+            bindings:
+                output:
+                    destination: topic-jhipster
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:h2:mem:jDoctor;DB_CLOSE_DELAY=-1
+        name:
+        username:
+        password:
+    jpa:
+        database-platform: com.janderson.jdoctor.domain.util.FixedH2Dialect
+        database: H2
+        open-in-view: false
+        show-sql: true
+        hibernate:
+            ddl-auto: none
+            naming:
+                strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+        properties:
+            hibernate.cache.use_second_level_cache: false
+            hibernate.cache.use_query_cache: false
+            hibernate.generate_statistics: true
+            hibernate.hbm2ddl.auto: validate
+    data:
+        elasticsearch:
+            cluster-name:
+            cluster-nodes:
+            properties:
+                path:
+                  logs: target/elasticsearch/log
+                  data: target/elasticsearch/data
+    mail:
+        host: localhost
+    mvc:
+        favicon:
+            enabled: false
+    thymeleaf:
+        mode: XHTML
+
+liquibase:
+    contexts: test
+
+security:
+    basic:
+        enabled: false
+
+server:
+    port: 10344
+    address: localhost
+
+# ===================================================================
+# JHipster specific properties
+# ===================================================================
+
+jhipster:
+    async:
+        corePoolSize: 2
+        maxPoolSize: 50
+        queueCapacity: 10000
+    security:
+        authentication:
+            jwt:
+                secret: f0ae97bca9db62a6d694ec8c2df51b360b1a1f70
+                # Token is valid 24 hours
+                tokenValidityInSeconds: 86400
+    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
+        jmx.enabled: true
+    swagger:
+        title: jDoctor API
+        description: jDoctor API documentation
+        version: 0.0.1
+        termsOfServiceUrl:
+        contactName:
+        contactUrl:
+        contactEmail:
+        license:
+        licenseUrl:
